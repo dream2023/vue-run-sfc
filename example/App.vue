@@ -33,7 +33,7 @@ export default {
     },
     methods: {
       handleClick () {
-        alert('装备不花一分钱')
+        this.$message.error('装备不花一分钱')
       }
     }
   };

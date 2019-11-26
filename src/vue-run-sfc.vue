@@ -20,8 +20,8 @@
     <vue-run-sfc-main
       :is-row="isRow"
       :is-expanded="isExpanded"
-      :reverse="reverse"
-      :style="{ height: isScreenfull ? 'inherit' : height }"
+      :reverse="attrs.reverse"
+      :style="{ height: isScreenfull ? 'inherit' : attrs.height }"
       :is-screenfull="isScreenfull"
     >
       <template v-slot:editor>
@@ -41,10 +41,10 @@
         <!-- 运行结果展示 -->
         <vue-run-sfc-preview
           ref="preview"
-          :js-labs="jsLabs"
-          :css="css"
-          :js="js"
-          :css-labs="cssLabs"
+          :js-labs="attrs.jsLabs"
+          :css="attrs.css"
+          :js="attrs.js"
+          :css-labs="attrs.cssLabs"
           @change-height="handlePreviewHeightChange"
           :value="preview"
         />
@@ -84,10 +84,7 @@ export default {
   },
   props: {
     // 代码
-    code: {
-      type: String,
-      default: ''
-    },
+    code: String,
     // js 库
     jsLabs: Array,
     // css 库
@@ -97,30 +94,18 @@ export default {
     // css 字符串数组
     css: [Array, String],
     // 代码, 同上
-    value: {
-      type: String,
-      default: ''
-    },
+    value: String,
     // 横排
     row: {
       type: Boolean,
       default: undefined
     },
     // 名称
-    title: {
-      type: String,
-      default: ''
-    },
+    title: String,
     // 高度
-    height: {
-      type: String,
-      default: 'inherit'
-    },
+    height: String,
     // 翻转
-    reverse: {
-      type: Boolean,
-      default: true
-    }
+    reverse: Boolean
   },
   data () {
     return {
@@ -145,9 +130,36 @@ export default {
     }
   },
   computed: {
+    attrs () {
+      const merge = key => {
+        let globalVal = this.$_vue_run_sfc[key] || []
+        if (globalVal && !Array.isArray(globalVal)) {
+          globalVal = [globalVal]
+        }
+        let customVal = this.$props[key] || []
+        if (customVal && !Array.isArray(customVal)) {
+          customVal = [customVal]
+        }
+        return [...globalVal, ...customVal]
+      }
+
+      const props = Object.keys(this.$props).reduce((acc, key) => {
+        if (this.$props[key]) {
+          acc[key] = this.$props[key]
+        }
+        return acc
+      }, {})
+
+      return Object.assign({}, this.$_vue_run_sfc, props, {
+        jsLabs: merge('jsLabs'),
+        cssLabs: merge('cssLabs'),
+        js: merge('js'),
+        css: merge('css')
+      })
+    },
     // 编辑器高度, 动态计算
     editorHeight () {
-      if (this.height === 'inherit') {
+      if (!this.attrs.height) {
         let editorHeight = 0
         const minHeight = 150 // 最小高度
 
@@ -170,7 +182,7 @@ export default {
         }
         return editorHeight + 'px'
       } else {
-        return this.height
+        return this.attrs.height
       }
     }
   },
@@ -266,8 +278,8 @@ export default {
     },
     // 设置默认 row的 值
     setDefaultRow () {
-      if (this.row !== undefined) {
-        this.isRow = this.row
+      if (this.attrs.row !== undefined) {
+        this.isRow = this.attrs.row
       } else {
         // 根据宽度, 响应式处理
         const setWidth = setInterval(() => {

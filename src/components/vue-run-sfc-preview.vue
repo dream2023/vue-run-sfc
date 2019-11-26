@@ -7,7 +7,7 @@
       scrolling="yes"
       ref="iframe"
       frameborder="0"
-      style="width: 100%;height: 150px;"
+      style="width: 100%;height: 150px"
     ></iframe>
   </div>
 </template>
@@ -149,14 +149,16 @@ export default {
           this.iframe = iframe
           this.iframeDocument = iframeDocument
 
-          this.$nextTick(() => {
-            this.changeHeight()
-            iframe.contentWindow.addEventListener(
-              'resize',
-              this.changeHeight,
-              false
-            )
-          })
+          if (!this.height) {
+            this.$nextTick(() => {
+              this.changeHeight()
+              iframe.contentWindow.addEventListener(
+                'resize',
+                this.changeHeight,
+                false
+              )
+            })
+          }
         }
       }
     }
