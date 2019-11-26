@@ -22,6 +22,22 @@ export default {
     VueElementLoading
   },
   props: {
+    jsLabs: {
+      type: Array,
+      default: () => []
+    },
+    js: {
+      type: [Array, String],
+      default: () => []
+    },
+    cssLabs: {
+      type: Array,
+      default: () => []
+    },
+    css: {
+      type: [Array, String],
+      default: () => []
+    },
     value: {
       type: Object,
       required: true
@@ -30,43 +46,23 @@ export default {
   mounted () {
     const iframe = this.$refs.iframe
     const iframeDocument = iframe.contentWindow.document
-    const styles = ['https://unpkg.com/element-ui/lib/theme-chalk/index.css']
-    const scripts = [
-      'https://unpkg.com/element-ui/lib/index.js',
-      'https://unpkg.com/vue-ele-form/dist/vue-ele-form.umd.min.js'
-    ]
-    const stylesTags = styles.map(
+    const stylesTags = this.cssLabs.map(
       style => `<link rel="stylesheet" href="${style}" />`
     )
-    const scriptTags = scripts.map(
+    const scriptTags = this.jsLabs.map(
       script => `<script src="${script}"><\/script>`
     )
+    const js = Array.isArray(this.js) ? this.js : [this.js]
+    const css = Array.isArray(this.css) ? this.css : [this.css]
     const html = `
 <!DOCTYPE html>
   <html>
     <head>
       ${stylesTags.join('\n')}
-      <script src='https://unpkg.com/vue@2.6.10/dist/vue.min.js'><\/script>
+      <style>${css.join('\n')}</style>
+      <script src='https://cdn.jsdelivr.net/npm/vue'><\/script>
       ${scriptTags.join('\n')}
-      <style>
-        html, body {
-          margin: 0;
-          padding: 0;
-          overflow: hidden;
-        }
-        pre {
-          font-family: monospace;
-          white-space: pre;
-          line-height: 1.4;
-          font-size: 16px;
-          padding: 1.25rem 1.5rem;
-          margin: 0.85rem 0;
-          background-color: #282c34;
-          border: 1px solid #eaeefb;
-          border-radius: 6px;
-          overflow: auto;
-        }
-      </style>
+      <script>${js.join('\n')}<\/script>
     </head>
     <body id="body">
     </body>
@@ -112,7 +108,7 @@ export default {
     },
     // 设置html
     setHTML () {
-      const { styles = [], script = '' } = this.value
+      const { styles = [], script = '', error } = this.value
       const iframe = this.$refs.iframe
       const iframeDocument = iframe.contentWindow.document
 
@@ -121,17 +117,18 @@ export default {
         if (body) {
           const fragment = iframeDocument.createDocumentFragment()
           // 创建样式
-          const newStyle = iframeDocument.createElement('link')
+          const newStyle = iframeDocument.createElement('style')
           newStyle.type = 'text/css'
-          newStyle.innerHTML = styles
-            .map(style => `<style>${style}</style>`)
-            .join('\n')
+          newStyle.innerHTML = styles.join('\n')
 
           // 创建元素
-          const app = iframeDocument.createElement('div')
-          const error = iframeDocument.createElement('div')
-          app.setAttribute('id', 'app')
-          error.setAttribute('id', 'error')
+          const elApp = iframeDocument.createElement('div')
+          const elError = iframeDocument.createElement('div')
+          elApp.setAttribute('id', 'app')
+          elError.setAttribute('id', 'error')
+          if (error) {
+            elError.innerHTML = `<pre style="color: red">${error}</pre>`
+          }
 
           // 创建js
           const newScript = iframeDocument.createElement('script')
@@ -143,8 +140,8 @@ export default {
 
           // 填充元素
           fragment.appendChild(newStyle)
-          fragment.appendChild(error)
-          fragment.appendChild(app)
+          fragment.appendChild(elError)
+          fragment.appendChild(elApp)
           fragment.appendChild(newScript)
 
           body.appendChild(fragment)

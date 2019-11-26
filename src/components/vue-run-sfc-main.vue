@@ -3,9 +3,9 @@
     :is="isRow && isExpanded ? 'splitpanes' : 'div'"
     :class="{
       'default-theme': isRow,
-      'vue-run-sfc-main-reverse': !isRow && reverse
+      'vue-run-sfc-main-reverse': isExpanded && !isRow && reverse
     }"
-    :style="{ 'margin-top': isScreenfull ? '56px' : null }"
+    :style="{ 'padding-top': isScreenfull ? '56px' : null }"
     class="vue-run-sfc-main"
   >
     <component v-if="isExpanded" :is="isRow && isExpanded ? 'pane' : 'div'">
@@ -41,6 +41,8 @@ export default {
 .vue-run-sfc-main {
   position: relative;
   z-index: 1;
+  box-sizing: border-box;
+  overflow-y: auto;
 }
 
 .vue-run-sfc-main-reverse {
@@ -52,7 +54,7 @@ export default {
   border-top: 1px solid #eaeefb;
 }
 /* 拖拽看板样式 */
-.vue-run-sfc-main .splitpanes__pane {
+.splitpanes.default-theme .splitpanes__pane {
   background: white;
 }
 

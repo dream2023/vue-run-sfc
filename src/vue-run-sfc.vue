@@ -2,7 +2,7 @@
   <div
     ref="wrapper"
     class="vue-run-sfc"
-    :style="{ height: height, 'overflow-y': isScreenfull ? 'auto' : 'hidden' }"
+    :style="{ 'overflow-y': isScreenfull ? 'auto' : 'hidden' }"
     @mouseenter="hovering = true"
     @mouseleave="hovering = false"
   >
@@ -13,7 +13,7 @@
       :is-screenfull="isScreenfull"
       :is-expanded="isExpanded"
       @reset="handleReset"
-      @change-row="isRow != isRow"
+      @change-row="isRow = !isRow"
       @screenfull="handleScreenfull"
     />
     <!-- 中间主体区 -->
@@ -21,6 +21,7 @@
       :is-row="isRow"
       :is-expanded="isExpanded"
       :reverse="reverse"
+      :style="{ height: isScreenfull ? 'inherit' : height }"
       :is-screenfull="isScreenfull"
     >
       <template v-slot:editor>
@@ -30,7 +31,7 @@
           v-model="editCode"
           @input="handleRun"
           :style="{
-            height: editorHeight,
+            height: isScreenfull ? 'inherit' : editorHeight,
             borderBottom: isRow ? '' : '1px solid #ebeef5'
           }"
           :options="codemirrorOption"
@@ -40,6 +41,10 @@
         <!-- 运行结果展示 -->
         <vue-run-sfc-preview
           ref="preview"
+          :js-labs="jsLabs"
+          :css="css"
+          :js="js"
+          :css-labs="cssLabs"
           @change-height="handlePreviewHeightChange"
           :value="preview"
         />
@@ -83,6 +88,14 @@ export default {
       type: String,
       default: ''
     },
+    // js 库
+    jsLabs: Array,
+    // css 库
+    cssLabs: Array,
+    // js 字符串数组
+    js: [Array, String],
+    // css 字符串数组
+    css: [Array, String],
     // 代码, 同上
     value: {
       type: String,
@@ -101,7 +114,7 @@ export default {
     // 高度
     height: {
       type: String,
-      default: 'auto'
+      default: 'inherit'
     },
     // 翻转
     reverse: {
@@ -134,27 +147,31 @@ export default {
   computed: {
     // 编辑器高度, 动态计算
     editorHeight () {
-      let editorHeight = 0
-      const minHeight = 150 // 最小高度
+      if (this.height === 'inherit') {
+        let editorHeight = 0
+        const minHeight = 150 // 最小高度
 
-      if (this.isRow) {
-        // 如果是并排, 则根据预览区的高度 或者 最小高度
-        editorHeight =
-          this.previewHeight > minHeight ? this.previewHeight : minHeight
+        if (this.isRow) {
+          // 如果是并排, 则根据预览区的高度 或者 最小高度
+          editorHeight =
+            this.previewHeight > minHeight ? this.previewHeight : minHeight
+        } else {
+          // 如果是column布局, 则按照本身的高度 或者 最小高度
+          // 行高
+          const lineHeight = 21
+          // 额外高度
+          const extraHeight = 20
+
+          // 编辑区高度
+          editorHeight =
+            this.editCode.split(/\r\n|\r|\n/).length * lineHeight + extraHeight
+          // 判断
+          editorHeight = editorHeight > minHeight ? editorHeight : minHeight
+        }
+        return editorHeight + 'px'
       } else {
-        // 如果是column布局, 则按照本身的高度 或者 最小高度
-        // 行高
-        const lineHeight = 21
-        // 额外高度
-        const extraHeight = 20
-
-        // 编辑区高度
-        editorHeight =
-          this.editCode.split(/\r\n|\r|\n/).length * lineHeight + extraHeight
-        // 判断
-        editorHeight = editorHeight > minHeight ? editorHeight : minHeight
+        return this.height
       }
-      return editorHeight + 'px'
     }
   },
   methods: {
@@ -302,5 +319,11 @@ export default {
 }
 .vue-run-sfc-editor .CodeMirror-vscrollbar {
   display: none !important;
+}
+.vue-run-sfc-editor .CodeMirror-scrollbar-filler {
+  display: none !important;
+}
+.vue-run-sfc-editor .CodeMirror-sizer {
+  padding-right: 0 !important;
 }
 </style>
