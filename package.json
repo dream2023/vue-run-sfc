@@ -1,15 +1,36 @@
 {
   "name": "vue-run-sfc",
   "version": "0.1.0",
-  "private": true,
+  "description": "文档利器, 在线运行 & 编辑 Vue 单文件",
+  "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "build": "yarn build:lib && yarn build:docs",
+    "build:lib": "vue-cli-service build --target lib --name vue-run-sfc --dest ./dist/ ./src/index.js",
+    "build:docs": "vue-cli-service build",
+    "lint": "vue-cli-service lint --mode production"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dream2023/vue-run-sfc"
+  },
+  "main": "dist/vue-run-sfc.umd.min.js",
+  "homepage": "https://github.com/dream2023/vue-run-sfc/",
+  "keywords": [
+    "vue-run-sfc",
+    "vue-run",
+    "vue-sfc",
+    "vue-runner",
+    "vue-code-editor"
+  ],
   "dependencies": {
-    "core-js": "^3.3.2",
-    "vue": "^2.6.10"
+    "@babel/standalone": "^7.7.4",
+    "easy-affix": "^1.0.8",
+    "screenfull": "^5.0.0",
+    "splitpanes": "^2.1.1",
+    "throttle-debounce": "^2.1.0",
+    "vue-codemirror": "^4.0.6",
+    "vue-element-loading": "^1.1.5"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.0.0",
@@ -17,9 +38,11 @@
     "@vue/cli-service": "^4.0.0",
     "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.0.3",
+    "core-js": "^3.3.2",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "lint-staged": "^9.4.2",
+    "vue": "^2.6.10",
     "vue-template-compiler": "^2.6.10"
   },
   "gitHooks": {
