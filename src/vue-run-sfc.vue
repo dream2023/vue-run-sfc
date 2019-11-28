@@ -95,7 +95,7 @@ export default {
     css: [Array, String],
     // 代码, 同上
     value: String,
-    // 横排
+    // 是否为 [行] 排列(编辑区和展示区并列)
     row: {
       type: Boolean,
       default: undefined
@@ -104,8 +104,10 @@ export default {
     title: String,
     // 高度
     height: String,
-    // 翻转
-    reverse: Boolean
+    // 编辑区和展示区是否上下翻转
+    reverse: Boolean,
+    // 初始加载是否开启编辑区
+    open: Boolean
   },
   data () {
     return {
@@ -130,6 +132,7 @@ export default {
     }
   },
   computed: {
+    // 全局属性配置和自定义属性配置
     attrs () {
       const merge = key => {
         let globalVal = this.$_vue_run_sfc[key] || []
@@ -298,6 +301,7 @@ export default {
   },
   mounted () {
     this.setDefaultRow()
+    this.isExpanded = this.attrs.open
     let initalCode = this.code || this.value
     initalCode = initalCode ? decodeURIComponent(initalCode) : ''
     this.initalCode = initalCode

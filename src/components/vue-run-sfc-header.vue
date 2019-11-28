@@ -53,6 +53,7 @@ export default {
   border-bottom: 1px solid #ebeef5;
   display: flex;
   height: 36px;
+  box-sizing: content-box;
   align-items: center;
   justify-content: space-between;
 }
