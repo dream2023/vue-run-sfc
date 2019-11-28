@@ -255,6 +255,7 @@ export default {
               }
 
               // 错误处理
+              Vue.config.warnHandler = function(msg) { errorHandler(new Error(msg)) }
               Vue.config.errorHandler = errorHandler
 
               new Vue(component).$mount('#app')

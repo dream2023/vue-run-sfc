@@ -60,7 +60,7 @@ export default {
     <head>
       ${stylesTags.join('\n')}
       <style>${css.join('\n')}</style>
-      <script src='https://cdn.jsdelivr.net/npm/vue'><\/script>
+      <script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'><\/script>
       ${scriptTags.join('\n')}
       <script>${js.join('\n')}<\/script>
     </head>
