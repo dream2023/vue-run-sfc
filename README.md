@@ -12,7 +12,7 @@
 
 ## DEMO
 
-[https://dream2023.github.io/vue-run-sfc/](https://dream2023.github.io/vue-run-sfc/)
+[https://vue-run-sfc.netlify.com/](https://vue-run-sfc.netlify.com/)
 
 ## 特性
 
@@ -20,7 +20,7 @@
 - 错误提示
 - 全屏模式
 
-![image](https://cdn.nlark.com/yuque/0/2019/gif/364322/1574954317267-af8cb219-8330-4e34-b9ac-a4ed417192a7.gif)
+![image](https://raw.githubusercontent.com/dream2023/images/master/vue-run-sfc.6etlb7pxsj.gif)
 
 ## 安装
 
