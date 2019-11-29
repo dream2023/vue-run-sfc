@@ -1,4 +1,4 @@
-# vue-run-sfc | 文档利器, 在线运行 & 编辑 Vue 单文件
+# vue-run-sfc | Vue DEMO 利器, 在线运行 & 编辑 Vue 单文件
 
 ## 介绍
 
