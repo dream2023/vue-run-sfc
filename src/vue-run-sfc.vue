@@ -56,6 +56,7 @@
       :is-screenfull="isScreenfull"
       :is-expanded="isExpanded"
       :hovering="hovering"
+      :is-row="isRow"
       @expanded="isExpanded = !isExpanded"
     />
   </div>
@@ -83,30 +84,77 @@ export default {
     codemirror
   },
   props: {
-    // 代码
+    /**
+     * 代码
+     * @example: '<template><div>123</div></template>'
+     */
     code: String,
-    // js 库
+
+    /**
+     * js 库
+     * @example: ['https://unpkg.com/element-ui/lib/index.js']
+     */
     jsLabs: Array,
+
+    /**
+     * css 库
+     * @example: '<template><div>123</div></template>'
+     */
     // css 库
     cssLabs: Array,
+
+    /**
+     * js 字符串
+     * @example: 'alert(1)'
+     */
     // js 字符串数组
     js: [Array, String],
-    // css 字符串数组
+
+    /**
+     * css 字符串
+     * @example: 'body { color: red }'
+     */
     css: [Array, String],
-    // 代码, 同上
+
+    // 代码, 同 `code`
     value: String,
-    // 是否为 [行] 排列(编辑区和展示区并列)
+
+    /**
+     * 代码编辑器和效果预览排列方式
+     * 当为 false 时, 上下排列
+     * 当为 true 时, 左右排列
+     */
     row: {
       type: Boolean,
       default: undefined
     },
-    // 名称
+
+    /**
+     * 当 `row` 为 true 时, 编辑区和展示区上下位置
+     * 当为 false 时, 编辑器在下, 展示区在上
+     * 当为 true 时, 编辑器在上, 展示区在下
+     */
+    reverse: Boolean,
+
+    /**
+     * 标题
+     * @example: '测试demo'
+     */
+    // 标题
     title: String,
+
+    /**
+     * 高度
+     * @example: '400px'
+     */
     // 高度
     height: String,
-    // 编辑区和展示区是否上下翻转
-    reverse: Boolean,
-    // 初始加载是否开启编辑区
+
+    /**
+     * 初始加载是否打开编辑区
+     * 当为 false 时, 默认是关闭编辑区
+     * 当为 true 时, 默认是打开编辑区
+     */
     open: Boolean
   },
   data () {
@@ -134,31 +182,35 @@ export default {
   computed: {
     // 全局属性配置和自定义属性配置
     attrs () {
-      const merge = key => {
-        let globalVal = this.$_vue_run_sfc[key] || []
-        if (globalVal && !Array.isArray(globalVal)) {
-          globalVal = [globalVal]
+      if (this.$_vue_run_sfc) {
+        const merge = key => {
+          let globalVal = this.$_vue_run_sfc[key] || []
+          if (globalVal && !Array.isArray(globalVal)) {
+            globalVal = [globalVal]
+          }
+          let customVal = this.$props[key] || []
+          if (customVal && !Array.isArray(customVal)) {
+            customVal = [customVal]
+          }
+          return [...globalVal, ...customVal]
         }
-        let customVal = this.$props[key] || []
-        if (customVal && !Array.isArray(customVal)) {
-          customVal = [customVal]
-        }
-        return [...globalVal, ...customVal]
+
+        const props = Object.keys(this.$props).reduce((acc, key) => {
+          if (this.$props[key] !== undefined) {
+            acc[key] = this.$props[key]
+          }
+          return acc
+        }, {})
+
+        return Object.assign({}, this.$_vue_run_sfc, props, {
+          jsLabs: merge('jsLabs'),
+          cssLabs: merge('cssLabs'),
+          js: merge('js'),
+          css: merge('css')
+        })
+      } else {
+        return this.$props
       }
-
-      const props = Object.keys(this.$props).reduce((acc, key) => {
-        if (this.$props[key]) {
-          acc[key] = this.$props[key]
-        }
-        return acc
-      }, {})
-
-      return Object.assign({}, this.$_vue_run_sfc, props, {
-        jsLabs: merge('jsLabs'),
-        cssLabs: merge('cssLabs'),
-        js: merge('js'),
-        css: merge('css')
-      })
     },
     // 编辑器高度, 动态计算
     editorHeight () {
@@ -210,7 +262,6 @@ export default {
           let { template, script, styles, errors } = compiler.parseComponent(
             code
           )
-
           // 判断是否有错误
           if (errors && errors.length) {
             this.preview = {
@@ -238,32 +289,10 @@ export default {
                 presets: ['es2015']
               }).code
 
-              // 拼接
-              script = `
-              var errorHandler = function(error) {
-                var el = document.getElementById('error')
-                el.innerHTML = '<pre style="color: red">' + error.stack +'</pre>'
-              }
-              try {
-                var exports = {};
-                ${script}
-                var component = exports.default;
-                // 如果定义了 template函数, 则无需 template
-                component.template = component.template || ${template}
-              } catch (error){
-                errorHandler(error)
-              }
-
-              // 错误处理
-              Vue.config.warnHandler = function(msg) { errorHandler(new Error(msg)) }
-              Vue.config.errorHandler = errorHandler
-
-              new Vue(component).$mount('#app')
-            `
-
               this.preview = {
                 styles: styles,
-                script: script
+                script: script,
+                template: template
               }
             } catch (error) {
               this.preview = {

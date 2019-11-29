@@ -60,11 +60,27 @@ export default {
     <head>
       ${stylesTags.join('\n')}
       <style>${css.join('\n')}</style>
+      <style>
+        html, body { margin: 0; padding: 0; overflow-y: hidden; }
+      </style>
       <script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'><\/script>
       ${scriptTags.join('\n')}
       <script>${js.join('\n')}<\/script>
+      <script>
+        // 错误处理
+        var errorHandler = function(error) {
+          var el = document.getElementById('error')
+          el.innerHTML = '<pre style="color: red">' + error.stack +'</pre>'
+        }
+        Vue.config.warnHandler = function(msg) { errorHandler(new Error(msg)) }
+        Vue.config.errorHandler = errorHandler
+        Vue.config.productionTip = false
+        Vue.config.devtools = false
+      <\/script>
     </head>
     <body id="body">
+      <div><pre id="error" style="color: red"></pre></div>
+      <div id="box"></div>
     </body>
 </html>`
     iframeDocument.open()
@@ -99,22 +115,46 @@ export default {
           const iframe = this.iframe
           const iframeDocument = this.iframeDocument
           iframe.style.display = 'block'
-          const height = iframeDocument.documentElement.scrollHeight
+          const height = iframeDocument.documentElement.offsetHeight
           iframe.style.height = height + 'px'
           this.$emit('change-height', height)
         })
       }
       this.debounceChangeHeight()
     },
+    getScript (script, template) {
+      return ` try {
+          var exports = {};
+          ${script}
+          var component = exports.default;
+          // 如果定义了 template函数, 则无需 template
+          component.template = component.template || ${template}
+        } catch (error){
+          errorHandler(error)
+        }
+
+        new Vue(component).$mount('#app')
+      `
+    },
     // 设置html
     setHTML () {
-      const { styles = [], script = '', error } = this.value
+      let { styles = [], script = '', template, error } = this.value
       const iframe = this.$refs.iframe
       const iframeDocument = iframe.contentWindow.document
 
       if (iframeDocument) {
-        const body = iframeDocument.getElementById('body')
-        if (body) {
+        const elError = iframeDocument.getElementById('error')
+        if (elError) {
+          if (error) {
+            elError.style.display = 'block'
+            elError.innerText = `${error}`
+          } else {
+            elError.style.display = 'none'
+          }
+        }
+
+        const elBox = iframeDocument.getElementById('box')
+        if (elBox) {
           const fragment = iframeDocument.createDocumentFragment()
           // 创建样式
           const newStyle = iframeDocument.createElement('style')
@@ -123,12 +163,8 @@ export default {
 
           // 创建元素
           const elApp = iframeDocument.createElement('div')
-          const elError = iframeDocument.createElement('div')
           elApp.setAttribute('id', 'app')
-          elError.setAttribute('id', 'error')
-          if (error) {
-            elError.innerHTML = `<pre style="color: red">${error}</pre>`
-          }
+          script = this.getScript(script, template)
 
           // 创建js
           const newScript = iframeDocument.createElement('script')
@@ -136,15 +172,14 @@ export default {
           newScript.innerHTML = script
 
           // 重置 html
-          body.innerHTML = ''
+          elBox.innerHTML = ''
 
           // 填充元素
           fragment.appendChild(newStyle)
-          fragment.appendChild(elError)
           fragment.appendChild(elApp)
           fragment.appendChild(newScript)
 
-          body.appendChild(fragment)
+          elBox.appendChild(fragment)
 
           this.iframe = iframe
           this.iframeDocument = iframeDocument
@@ -179,6 +214,6 @@ export default {
 /* 展示区样式 */
 .vue-run-sfc-preview {
   background: white;
-  padding: 10px 10px 10px 14px;
+  padding: 20px 15px;
 }
 </style>

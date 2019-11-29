@@ -29,7 +29,8 @@ export default {
   props: {
     isScreenfull: Boolean,
     isExpanded: Boolean,
-    hovering: Boolean
+    hovering: Boolean,
+    isRow: Boolean
   },
   data () {
     return {
