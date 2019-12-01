@@ -41,19 +41,25 @@ export default {
   },
   watch: {
     isRow () {
-      if (this.isExpanded) {
-        // 重新计算定位
-        this.isAffix = false
-        this.$nextTick(() => {
-          this.isAffix = true
-        })
-      }
+      this.toggleAffix()
+    },
+    isExpanded () {
+      this.toggleAffix()
     }
   },
   computed: {
     // 控制区的文本
     controlText () {
       return this.isExpanded ? '关闭编辑器' : '在线编辑代码'
+    }
+  },
+  methods: {
+    toggleAffix () {
+      // 重新计算定位
+      this.isAffix = false
+      this.$nextTick(() => {
+        this.isAffix = true
+      })
     }
   }
 }
