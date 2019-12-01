@@ -184,35 +184,32 @@ export default {
   computed: {
     // 全局属性配置和自定义属性配置
     attrs () {
-      if (this.$_vue_run_sfc) {
-        const merge = key => {
-          let globalVal = this.$_vue_run_sfc[key] || []
-          if (globalVal && !Array.isArray(globalVal)) {
-            globalVal = [globalVal]
-          }
-          let customVal = this.$props[key] || []
-          if (customVal && !Array.isArray(customVal)) {
-            customVal = [customVal]
-          }
-          return [...globalVal, ...customVal]
+      const globalProps = this.$_vue_run_sfc || {}
+      const merge = key => {
+        let globalVal = globalProps[key] || []
+        if (globalVal && !Array.isArray(globalVal)) {
+          globalVal = [globalVal]
         }
-
-        const props = Object.keys(this.$props).reduce((acc, key) => {
-          if (this.$props[key] !== undefined) {
-            acc[key] = this.$props[key]
-          }
-          return acc
-        }, {})
-
-        return Object.assign({}, this.$_vue_run_sfc, props, {
-          jsLabs: merge('jsLabs'),
-          cssLabs: merge('cssLabs'),
-          js: merge('js'),
-          css: merge('css')
-        })
-      } else {
-        return this.$props
+        let customVal = this.$props[key] || []
+        if (customVal && !Array.isArray(customVal)) {
+          customVal = [customVal]
+        }
+        return [...globalVal, ...customVal]
       }
+
+      const props = Object.keys(this.$props).reduce((acc, key) => {
+        if (this.$props[key] !== undefined) {
+          acc[key] = this.$props[key]
+        }
+        return acc
+      }, {})
+
+      return Object.assign({}, globalProps, props, {
+        jsLabs: merge('jsLabs'),
+        cssLabs: merge('cssLabs'),
+        js: merge('js'),
+        css: merge('css')
+      })
     },
     // 编辑器高度, 动态计算
     editorHeight () {

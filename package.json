@@ -1,6 +1,6 @@
 {
   "name": "vue-run-sfc",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Vue DEMO利器, 在线运行 & 编辑 Vue 单文件",
   "private": false,
   "license": "MIT",
@@ -8,6 +8,7 @@
     "serve": "vue-cli-service serve",
     "build": "yarn build:lib && yarn build:docs",
     "build:lib": "vue-cli-service build --target lib --name vue-run-sfc --dest ./dist/ ./src/index.js",
+    "pub": "npm run build:lib && npm publish",
     "build:docs": "vue-cli-service build",
     "lint": "vue-cli-service lint --mode production"
   },
