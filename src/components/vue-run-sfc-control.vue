@@ -28,10 +28,22 @@ export default {
     Affix
   },
   props: {
-    isScreenfull: Boolean,
-    isExpanded: Boolean,
-    hovering: Boolean,
-    isRow: Boolean
+    isScreenfull: {
+      type: Boolean,
+      default: false
+    },
+    isExpanded: {
+      type: Boolean,
+      default: false
+    },
+    hovering: {
+      type: Boolean,
+      default: false
+    },
+    isRow: {
+      type: Boolean,
+      default: false
+    }
   },
   data () {
     return {
