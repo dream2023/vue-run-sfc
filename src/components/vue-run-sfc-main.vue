@@ -16,7 +16,7 @@
       </pane>
     </template>
     <template v-else>
-      <slot name="editor"></slot>
+      <slot v-if="isExpanded" name="editor"></slot>
       <slot name="preview"></slot>
     </template>
   </component>
