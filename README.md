@@ -37,6 +37,7 @@ import VueRunSfc from 'vue-run-sfc'
 
 Vue.use(VueRunSfc, {
   // 全局配置(非必填),  具体属性含义参考 `props` 说明
+  // 注意 全局的 和 局部的 `cssLabs` 和 `jsLabs` 是 merge的关系, 不是替换
   cssLabs: ['https://unpkg.com/normalize.css@8.0.1/normalize.css'],
   jsLabs: ['https://cdn.jsdelivr.net/npm/element-ui@2.12.0/lib/index.js'],
   row: true,
@@ -122,20 +123,18 @@ props: {
    * js 库
    * @example: ['https://unpkg.com/element-ui/lib/index.js']
    */
-  jsLabs: Array,
+  jsLabs: [String, Array],
 
   /**
    * css 库
-   * @example: '<template><div>123</div></template>'
+   * @example: ['https://unpkg.com/element-ui/lib/theme-chalk/index.css']
    */
-  // css 库
-  cssLabs: Array,
+  cssLabs: [String, Array],
 
   /**
    * js 字符串
    * @example: 'alert(1)'
    */
-  // js 字符串数组
   js: [Array, String],
 
   /**
@@ -165,14 +164,12 @@ props: {
    * 标题
    * @example: '测试demo'
    */
-  // 标题
   title: String,
 
   /**
    * 高度
    * @example: '400px'
    */
-  // 高度
   height: String,
 
   /**

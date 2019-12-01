@@ -5,6 +5,7 @@
     v-if="!isScreenfull && isAffix"
     type="bottom"
     ref="affix"
+    :delay="50"
     :enabled="isExpanded"
   >
     <!-- 参考 element-ui https://github.com/ElemeFE/element/blob/dev/examples/components/demo-block.vue -->

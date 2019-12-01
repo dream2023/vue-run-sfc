@@ -94,20 +94,18 @@ export default {
      * js 库
      * @example: ['https://unpkg.com/element-ui/lib/index.js']
      */
-    jsLabs: Array,
+    jsLabs: [String, Array],
 
     /**
      * css 库
-     * @example: '<template><div>123</div></template>'
+     * @example: ['https://unpkg.com/element-ui/lib/theme-chalk/index.css']
      */
-    // css 库
-    cssLabs: Array,
+    cssLabs: [String, Array],
 
     /**
      * js 字符串
      * @example: 'alert(1)'
      */
-    // js 字符串数组
     js: [Array, String],
 
     /**
@@ -134,20 +132,21 @@ export default {
      * 当为 false 时, 编辑器在下, 展示区在上
      * 当为 true 时, 编辑器在上, 展示区在下
      */
-    reverse: Boolean,
+    reverse: {
+      type: Boolean,
+      default: undefined
+    },
 
     /**
      * 标题
      * @example: '测试demo'
      */
-    // 标题
     title: String,
 
     /**
      * 高度
      * @example: '400px'
      */
-    // 高度
     height: String,
 
     /**
@@ -155,7 +154,10 @@ export default {
      * 当为 false 时, 默认是关闭编辑区
      * 当为 true 时, 默认是打开编辑区
      */
-    open: Boolean
+    open: {
+      type: Boolean,
+      default: undefined
+    }
   },
   data () {
     return {
