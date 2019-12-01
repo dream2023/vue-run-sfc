@@ -2,7 +2,6 @@
   <div
     ref="wrapper"
     class="vue-run-sfc"
-    :style="{ 'overflow-y': isScreenfull ? 'auto' : 'hidden' }"
     @mouseenter="hovering = true"
     @mouseleave="hovering = false"
   >
@@ -21,7 +20,9 @@
       :is-row="isRow"
       :is-expanded="isExpanded"
       :reverse="attrs.reverse"
-      :style="{ height: isScreenfull ? 'inherit' : attrs.height }"
+      :style="{
+        height: isScreenfull ? '100vh' : attrs.height
+      }"
       :is-screenfull="isScreenfull"
     >
       <template v-slot:editor>

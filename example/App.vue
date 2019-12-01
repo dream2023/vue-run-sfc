@@ -11,10 +11,16 @@
       <h1 class="project-name">vue-run-sfc</h1>
       <h2 class="project-tagline">文档利器, 在线运行 & 编辑 Vue 单文件</h2>
       <div>
-        <a href="https://github.com/dream2023/vue-run-sfc" class="btn"
+        <a
+          href="https://github.com/dream2023/vue-run-sfc"
+          target="_blank"
+          class="btn"
           >View on GitHub</a
         >
-        <a href="https://www.npmjs.com/package/vue-run-sfc" class="btn"
+        <a
+          href="https://www.npmjs.com/package/vue-run-sfc"
+          target="_blank"
+          class="btn"
           >View on NPM</a
         >
       </div>

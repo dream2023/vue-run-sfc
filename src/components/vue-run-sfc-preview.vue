@@ -60,9 +60,7 @@ export default {
     <head>
       ${stylesTags.join('\n')}
       <style>${css.join('\n')}</style>
-      <style>
-        html, body { margin: 0; padding: 0; overflow-y: hidden; }
-      </style>
+
       <script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'><\/script>
       ${scriptTags.join('\n')}
       <script>${js.join('\n')}<\/script>

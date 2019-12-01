@@ -2,9 +2,9 @@
   <!-- 底部控制区 -->
   <!-- 使用affix进行浮动控制 -->
   <affix
-    v-if="!isScreenfull && isAffix"
+    v-if="isAffix"
+    v-show="!isScreenfull"
     type="bottom"
-    ref="affix"
     :delay="50"
     :enabled="isExpanded"
   >

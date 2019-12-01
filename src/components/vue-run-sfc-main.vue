@@ -5,15 +5,20 @@
       'default-theme': isRow,
       'vue-run-sfc-main-reverse': isExpanded && !isRow && reverse
     }"
-    :style="{ 'padding-top': isScreenfull ? '56px' : null }"
     class="vue-run-sfc-main"
   >
-    <component v-if="isExpanded" :is="isRow && isExpanded ? 'pane' : 'div'">
+    <template v-if="isRow && isExpanded">
+      <pane style="overflow-y: auto">
+        <slot name="editor"></slot>
+      </pane>
+      <pane style="overflow-y: auto">
+        <slot name="preview"></slot>
+      </pane>
+    </template>
+    <template v-else>
       <slot name="editor"></slot>
-    </component>
-    <component :is="isRow && isExpanded ? 'pane' : 'div'">
       <slot name="preview"></slot>
-    </component>
+    </template>
   </component>
 </template>
 
