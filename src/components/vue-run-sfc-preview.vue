@@ -136,16 +136,16 @@ export default {
     },
     // 设置html
     setHTML () {
-      let { styles = [], script = '', template, error } = this.value
+      let { styles = [], script = '', template, errors } = this.value
       const iframe = this.$refs.iframe
       const iframeDocument = iframe.contentWindow.document
 
       if (iframeDocument) {
         const elError = iframeDocument.getElementById('error')
         if (elError) {
-          if (error) {
+          if (errors) {
             elError.style.display = 'block'
-            elError.innerText = `${error}`
+            elError.innerText = `${errors.join('\n')}`
           } else {
             elError.style.display = 'none'
           }

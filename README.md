@@ -19,6 +19,7 @@
 - 在线预览和编辑 Vue 单文件
 - 错误提示
 - 全屏模式
+- 支持 `sass` / `scss` / `less` / `stylus` 预处理器
 
 ![image](https://raw.githubusercontent.com/dream2023/images/master/vue-run-sfc.6etlb7pxsj.gif)
 
@@ -57,6 +58,18 @@ Vue.use(VueRunSfc, {
     components: { VueRunSfc }
   }
 </script>
+```
+
+### 预处理器使用
+
+因为考虑到 css 预处理器在 demo 中使用 `频次` 不是很多 和 安装包 `体积`, 所以 `axios` 采用手动配置 cdn
+
+- 如果配置了 axios CDN, 则进行预`处理转化`
+- 如果没有配置 axios CDN, 且当使用 `lang` 时, 进行 `报错`
+
+```html
+<!-- 引入axios库 -->
+<script src="https://cdn.jsdelivr.net/npm/axios@0.19.0/dist/axios.min.js"></script>
 ```
 
 ## 示例

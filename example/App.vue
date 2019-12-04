@@ -67,6 +67,7 @@ export default {
     <div><el-button type="primary" @click="handleClick">点一下, 玩一年</el-button></div>
   </div>
 </template>
+
 <script>
   export default {
     data() {
@@ -81,8 +82,13 @@ export default {
     }
   };
 <\/script>
-<style>
-  body {color: #409EFF;}
+
+<style lang="scss">
+  body {
+    #box {
+      color: #409EFF;
+    }
+  }
 </style>`
     }
   }

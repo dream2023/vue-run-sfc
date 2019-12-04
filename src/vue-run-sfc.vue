@@ -251,7 +251,7 @@ export default {
     // 参考: https://github.com/QingWei-Li/vuep.run/blob/master/src/components/preview.vue
     handleRun () {
       if (!this.runCode) {
-        this.runCode = debounce(300, () => {
+        this.runCode = debounce(300, async () => {
           const code = this.editCode
           this.$emit('input', code)
           this.$emit('change', code)
@@ -262,17 +262,31 @@ export default {
           let { template, script, styles, errors } = compiler.parseComponent(
             code
           )
+
           // 判断是否有错误
           if (errors && errors.length) {
             this.preview = {
-              error: errors.join('\n')
+              errors: errors
             }
           } else {
             // 如果 html和js 都不存在
             if (!template && !script) return
-
             // 处理 css 样式(数组)
-            styles = styles.map(style => style.content)
+            if (window.axios) {
+              // 如果存在 axios 则从远程获取解析值
+              const styleParser = require('./styleParser')
+              const res = await styleParser.getStyles(styles)
+              errors = res.filter(item => !item.success).map(item => item.error)
+              styles = res.filter(item => item.success).map(item => item.style)
+            } else {
+              // 如果不存在 axios 则不考虑其它预处理器
+              errors = styles
+                .filter(item => item.lang)
+                .map(item => `暂不支持${item.lang}预处理器`)
+              styles = styles
+                .filter(item => !item.lang)
+                .map(item => item.content)
+            }
 
             // 处理 template
             template = template ? JSON.stringify(template.content) : '""'
@@ -292,11 +306,12 @@ export default {
               this.preview = {
                 styles: styles,
                 script: script,
-                template: template
+                template: template,
+                errors: errors
               }
             } catch (error) {
               this.preview = {
-                error: error.stack
+                errors: [error.stack]
               }
             }
           }
