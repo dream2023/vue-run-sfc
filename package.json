@@ -27,7 +27,6 @@
   ],
   "dependencies": {
     "@babel/standalone": "^7.7.4",
-    "easy-affix": "^1.0.8",
     "screenfull": "^5.0.0",
     "splitpanes": "^2.1.1",
     "throttle-debounce": "^2.1.0",

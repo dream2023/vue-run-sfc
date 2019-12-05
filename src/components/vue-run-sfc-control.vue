@@ -1,32 +1,27 @@
 <template>
   <!-- 底部控制区 -->
-  <!-- 使用affix进行浮动控制 -->
-  <affix
-    v-if="isAffix"
+  <!-- 参考 element-ui https://github.com/ElemeFE/element/blob/dev/examples/components/demo-block.vue -->
+  <div
+    :style="isExpanded ? style : null"
+    ref="control"
     v-show="!isScreenfull"
-    type="bottom"
-    :delay="50"
-    :enabled="isExpanded"
+    class="vue-run-sfc-control"
+    @click="$emit('expanded')"
   >
-    <!-- 参考 element-ui https://github.com/ElemeFE/element/blob/dev/examples/components/demo-block.vue -->
-    <div class="vue-run-sfc-control" @click="$emit('expanded')">
-      <transition name="arrow-slide">
-        <i class="vue-run-sfc-control-icon" :class="{ hovering: hovering }"></i>
-      </transition>
-      <transition name="text-slide">
-        <span v-show="hovering">{{ controlText }}</span>
-      </transition>
-    </div>
-  </affix>
+    <transition name="arrow-slide">
+      <i class="vue-run-sfc-control-icon" :class="{ hovering: hovering }"></i>
+    </transition>
+    <transition name="text-slide">
+      <span v-show="hovering">{{ controlText }}</span>
+    </transition>
+  </div>
 </template>
 
 <script>
-import Affix from 'easy-affix'
+const { throttle } = require('throttle-debounce')
+
 export default {
   name: 'vue-run-sfc-control',
-  components: {
-    Affix
-  },
   props: {
     isScreenfull: {
       type: Boolean,
@@ -47,16 +42,7 @@ export default {
   },
   data () {
     return {
-      // 是否开启affix
-      isAffix: true
-    }
-  },
-  watch: {
-    isRow () {
-      this.toggleAffix()
-    },
-    isExpanded () {
-      this.toggleAffix()
+      style: {}
     }
   },
   computed: {
@@ -66,13 +52,38 @@ export default {
     }
   },
   methods: {
-    toggleAffix () {
-      // 重新计算定位
-      this.isAffix = false
-      this.$nextTick(() => {
-        this.isAffix = true
-      })
+    scrollHandler () {
+      const controlHeight = 44
+      const wrapper = this.$parent.$refs.wrapper
+      if (this.isExpanded && wrapper) {
+        const { top, bottom, left, width } = wrapper.getBoundingClientRect()
+
+        const isAffix =
+          bottom > document.documentElement.clientHeight &&
+          top + controlHeight <= document.documentElement.clientHeight
+        this.style = isAffix
+          ? {
+            left: `${left}px`,
+            width: `${width}px`,
+            bottom: '0px',
+            position: 'fixed',
+            border: '1px solid #eaeefb'
+          }
+          : {}
+      }
     }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.scrollHandler()
+      this.throttleScrollHandler = throttle(100, () => {
+        this.scrollHandler()
+      })
+      window.addEventListener('scroll', this.throttleScrollHandler)
+    })
+  },
+  beforeDestroy () {
+    window.removeEventListener('scroll', this.throttleScrollHandler)
   }
 }
 </script>

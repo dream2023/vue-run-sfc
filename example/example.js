@@ -35,8 +35,12 @@ export default {
   }
 };
 <\\/script>
-<style>
-  body {color: #409EFF;}
+<style lang="scss">
+  body {
+    #box {
+      color: #409EFF;
+    }
+  }
 <\/style>\`
     }
   }
