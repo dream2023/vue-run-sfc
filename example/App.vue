@@ -34,14 +34,6 @@
         :open="true"
         :code="code"
       />
-      <vue-run-sfc
-        :js-labs="jsLabs"
-        :css-labs="cssLabs"
-        title="测试DEMO"
-        :open="true"
-        style="margin-top: 59px;"
-        :code="code"
-      />
       <h2>DEMO 源码</h2>
       <codemirror
         style="border-top: 1px solid #eee"

@@ -9,6 +9,7 @@
     <vue-run-sfc-header
       :title="title"
       :is-row="isRow"
+      v-if="!attrs.isHideHeader"
       :is-screenfull="isScreenfull"
       :is-expanded="isExpanded"
       @reset="handleReset"
@@ -32,7 +33,7 @@
           v-model="editCode"
           @input="handleRun"
           :style="{
-            height: isScreenfull ? 'inherit' : editorHeight,
+            height: editorHeight,
             borderBottom: isRow ? '' : '1px solid #ebeef5'
           }"
           :options="codemirrorOption"
@@ -158,6 +159,14 @@ export default {
     open: {
       type: Boolean,
       default: undefined
+    },
+
+    /**
+     * 是否隐藏头部
+     */
+    isHideHeader: {
+      type: Boolean,
+      default: undefined
     }
   },
   data () {
@@ -214,30 +223,39 @@ export default {
     },
     // 编辑器高度, 动态计算
     editorHeight () {
-      if (!this.attrs.height) {
-        let editorHeight = 0
-        const minHeight = 150 // 最小高度
-
+      if (this.isScreenfull) {
         if (this.isRow) {
-          // 如果是并排, 则根据预览区的高度 或者 最小高度
-          editorHeight =
-            this.previewHeight > minHeight ? this.previewHeight : minHeight
+          return '100vh'
         } else {
-          // 如果是column布局, 则按照本身的高度 或者 最小高度
-          // 行高
-          const lineHeight = 21
-          // 额外高度
-          const extraHeight = 20
-
-          // 编辑区高度
-          editorHeight =
-            this.editCode.split(/\r\n|\r|\n/).length * lineHeight + extraHeight
-          // 判断
-          editorHeight = editorHeight > minHeight ? editorHeight : minHeight
+          return null
         }
-        return editorHeight + 'px'
       } else {
-        return this.attrs.height
+        if (!this.attrs.height) {
+          let editorHeight = 0
+          const minHeight = 150 // 最小高度
+
+          if (this.isRow) {
+            // 如果是并排, 则根据预览区的高度 或者 最小高度
+            editorHeight =
+              this.previewHeight > minHeight ? this.previewHeight : minHeight
+          } else {
+            // 如果是column布局, 则按照本身的高度 或者 最小高度
+            // 行高
+            const lineHeight = 21
+            // 额外高度
+            const extraHeight = 20
+
+            // 编辑区高度
+            editorHeight =
+              this.editCode.split(/\r\n|\r|\n/).length * lineHeight +
+              extraHeight
+            // 判断
+            editorHeight = editorHeight > minHeight ? editorHeight : minHeight
+          }
+          return editorHeight + 'px'
+        } else {
+          return this.attrs.height
+        }
       }
     }
   },
@@ -386,5 +404,9 @@ export default {
 }
 .vue-run-sfc-editor .CodeMirror-sizer {
   padding-right: 0 !important;
+}
+.vue-run-sfc-editor .CodeMirror-scroll {
+  margin-bottom: 40px;
+  padding-bottom: 44px;
 }
 </style>

@@ -7,7 +7,8 @@ Vue.config.productionTip = false
 Vue.use(VueRunSfc, {
   cssLabs: 'https://unpkg.com/normalize.css@8.0.1/normalize.css',
   row: false,
-  reverse: true
+  reverse: true,
+  isHideHeader: false
 })
 
 new Vue({

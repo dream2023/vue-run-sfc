@@ -119,7 +119,7 @@ export default {
   transition: 0.3s;
   position: relative;
   font-size: 0;
-  bottom: -9px;
+  bottom: -6px;
   display: inline-block;
 }
 
