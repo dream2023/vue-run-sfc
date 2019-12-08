@@ -168,6 +168,15 @@ props: {
   },
 
   /**
+   * 边框色
+   * 默认值: #eaeefb
+   */
+  themeBorderColor: {
+    type: String,
+    default: '#eaeefb'
+  },
+
+  /**
    * 代码编辑器和效果预览排列方式
    * 当为 false 时, 上下排列
    * 当为 true 时, 左右排列
