@@ -50,7 +50,7 @@ export default {
 .vue-run-sfc-header {
   padding: 10px;
   z-index: 1;
-  border: 1px solid #ebeef5;
+  border: 1px solid var(--vue-run-sfc-border, #ebeef5);
   display: flex;
   height: 36px;
   box-sizing: content-box;
@@ -97,7 +97,7 @@ export default {
 
 .vue-run-sfc-header-button:focus,
 .vue-run-sfc-header-button:hover {
-  color: var(--vue-run-sfc, #409eff);
+  color: var(--vue-run-sfc-main, #409eff);
   border-color: #c6e2ff;
   background-color: #ecf5ff;
 }

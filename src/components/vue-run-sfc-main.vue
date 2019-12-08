@@ -49,7 +49,7 @@ export default {
   z-index: 1;
   box-sizing: border-box;
   overflow-y: auto;
-  border: 1px solid #eaeefb;
+  border: 1px solid var(--vue-run-sfc-border, #ebeef5);
   border-top: none;
 }
 
@@ -68,7 +68,7 @@ export default {
 }
 
 .vue-run-sfc-main.splitpanes--vertical > .splitpanes__splitter {
-  border-left: 1px solid #ebeef5;
-  border-right: 1px solid #ebeef5;
+  border-left: 1px solid var(--vue-run-sfc-border, #ebeef5);
+  border-right: 1px solid var(--vue-run-sfc-border, #ebeef5);
 }
 </style>

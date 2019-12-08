@@ -46,7 +46,10 @@
           :css="attrs.css"
           :js="attrs.js"
           :style="{
-            borderTop: !isRow && !attrs.reverse ? '1px solid #ebeef5' : ''
+            borderTop:
+              !isRow && !attrs.reverse && isExpanded
+                ? '1px solid var(--vue-run-sfc-border, #ebeef5)'
+                : ''
           }"
           :css-labs="attrs.cssLabs"
           @change-height="handlePreviewHeightChange"
@@ -127,6 +130,12 @@ export default {
      * 默认值: #409eff
      */
     themeColor: String,
+
+    /**
+     * 边框色
+     * 默认值: #eaeefb
+     */
+    themeBorderColor: String,
 
     /**
      * 代码编辑器和效果预览排列方式
@@ -386,7 +395,8 @@ export default {
 
       cssVars({
         variables: {
-          '--vue-run-sfc': this.attrs.themeColor || '#409eff'
+          '--vue-run-sfc-main': this.attrs.themeColor || '#409eff',
+          '--vue-run-sfc-border': this.attrs.themeBorderColor || '#eaeefb'
         }
       })
 

@@ -67,7 +67,7 @@ export default {
             width: `${width}px`,
             bottom: '0px',
             position: 'fixed',
-            border: '1px solid #eaeefb'
+            border: '1px solid var(--vue-run-sfc-border, #ebeef5)'
           }
           : {}
       }
@@ -91,7 +91,7 @@ export default {
 <style>
 /* 控制器样式 */
 .vue-run-sfc-control {
-  border: 1px solid #eaeefb;
+  border: 1px solid var(--vue-run-sfc-border, #ebeef5);
   height: 44px;
   box-sizing: border-box;
   background-color: #fff;
@@ -105,7 +105,7 @@ export default {
   z-index: 1;
 }
 .vue-run-sfc-control:hover {
-  color: var(--vue-run-sfc, #409eff);
+  color: var(--vue-run-sfc-main, #409eff);
   background-color: #f9fafc;
 }
 
@@ -127,7 +127,7 @@ export default {
   transform: translateX(-40px);
 }
 .vue-run-sfc-control:hover .vue-run-sfc-control-icon {
-  border-top: 6px solid var(--vue-run-sfc, #409eff);
+  border-top: 6px solid var(--vue-run-sfc-main, #409eff);
 }
 .vue-run-sfc-control > span {
   position: absolute;
