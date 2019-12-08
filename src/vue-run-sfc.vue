@@ -22,9 +22,6 @@
       :is-row="isRow"
       :is-expanded="isExpanded"
       :reverse="attrs.reverse"
-      :style="{
-        height: isScreenfull ? null : attrs.height
-      }"
       :is-screenfull="isScreenfull"
     >
       <template v-slot:editor>

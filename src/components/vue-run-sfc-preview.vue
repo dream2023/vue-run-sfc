@@ -1,5 +1,5 @@
 <template>
-  <div class="vue-run-sfc-preview">
+  <div ref="preview" class="vue-run-sfc-preview">
     <vue-element-loading
       :active="loading"
       spinner="spinner"
@@ -125,7 +125,7 @@ export default {
           const height =
             iframeDocument.documentElement.offsetHeight + extendHeight
           iframe.style.height = height + 'px'
-          this.$emit('change-height', height)
+          this.$emit('change-height', this.$refs.preview.clientHeight)
         })
       }
       this.debounceChangeHeight()
