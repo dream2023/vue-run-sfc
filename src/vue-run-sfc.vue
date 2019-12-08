@@ -2,6 +2,7 @@
   <div
     ref="wrapper"
     class="vue-run-sfc"
+    :style="{ 'overflow-y': isScreenfull ? 'auto' : null }"
     @mouseenter="hovering = true"
     @mouseleave="hovering = false"
   >
@@ -22,7 +23,7 @@
       :is-expanded="isExpanded"
       :reverse="attrs.reverse"
       :style="{
-        height: isScreenfull ? '100vh' : attrs.height
+        height: isScreenfull ? null : attrs.height
       }"
       :is-screenfull="isScreenfull"
     >
@@ -32,7 +33,6 @@
           class="vue-run-sfc-editor"
           v-model="editCode"
           @input="handleRun"
-          :class="{ 'vue-run-sfc-editor-screenfull': isScreenfull && isRow }"
           :style="{ height: editorHeight }"
           :options="codemirrorOption"
         ></codemirror>
@@ -46,7 +46,7 @@
           :css="attrs.css"
           :js="attrs.js"
           :style="{
-            borderTop: isRow ? '' : '1px solid #ebeef5'
+            borderTop: !isRow && !attrs.reverse ? '1px solid #ebeef5' : ''
           }"
           :css-labs="attrs.cssLabs"
           @change-height="handlePreviewHeightChange"
@@ -408,7 +408,6 @@ export default {
 <style>
 /* 主体样式 */
 .vue-run-sfc {
-  border: 1px solid #ebeef5;
   box-sizing: border-box;
   background: white;
   color: #303133;
@@ -435,9 +434,5 @@ export default {
 }
 .vue-run-sfc-editor .CodeMirror-sizer {
   padding-right: 0 !important;
-}
-/* 修复: 全屏模式会遮盖住 最后一行 */
-.vue-run-sfc-editor-screenfull .CodeMirror-sizer {
-  margin-bottom: 40px !important;
 }
 </style>

@@ -5,6 +5,7 @@
       'default-theme': isRow,
       'vue-run-sfc-main-reverse': isExpanded && !isRow && reverse
     }"
+    :style="{ 'padding-top': isScreenfull ? '57px' : null }"
     class="vue-run-sfc-main"
   >
     <template v-if="isRow && isExpanded">
@@ -48,11 +49,14 @@ export default {
   z-index: 1;
   box-sizing: border-box;
   overflow-y: auto;
+  border: 1px solid #eaeefb;
+  border-top: none;
 }
 
 .vue-run-sfc-main-reverse {
   display: flex;
   flex-direction: column-reverse;
+  justify-content: flex-end;
 }
 
 .vue-run-sfc-main-reverse .vue-run-sfc-editor {

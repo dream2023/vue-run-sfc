@@ -121,7 +121,9 @@ export default {
           const iframe = this.iframe
           const iframeDocument = this.iframeDocument
           iframe.style.display = 'block'
-          const height = iframeDocument.documentElement.offsetHeight
+          const extendHeight = 10 // 额外的高度(避免出现滚动条)
+          const height =
+            iframeDocument.documentElement.offsetHeight + extendHeight
           iframe.style.height = height + 'px'
           this.$emit('change-height', height)
         })

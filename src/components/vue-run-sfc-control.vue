@@ -91,7 +91,7 @@ export default {
 <style>
 /* 控制器样式 */
 .vue-run-sfc-control {
-  border-top: 1px solid #eaeefb;
+  border: 1px solid #eaeefb;
   height: 44px;
   box-sizing: border-box;
   background-color: #fff;

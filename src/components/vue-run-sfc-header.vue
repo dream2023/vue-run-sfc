@@ -1,29 +1,27 @@
 <template>
   <!-- 头部 -->
-  <div :style="{ marginBottom: isScreenfull ? '57px' : '0' }">
-    <div
-      class="vue-run-sfc-header"
-      :class="{ 'vue-run-sfc-header-screenfull': isScreenfull }"
-    >
-      <!-- 标题 -->
-      <div class="vue-run-sfc-header-title">{{ title }}</div>
-      <!-- 操作区 -->
-      <div class="vue-run-sfc-header-action" v-if="isExpanded">
-        <button class="vue-run-sfc-header-button" @click="$emit('reset')">
-          重置
-        </button>
-        <button class="vue-run-sfc-header-button" @click="$emit('change-row')">
-          <span v-if="isRow">上下</span><span v-else>左右</span>布局
-        </button>
-        <button
-          class="vue-run-sfc-header-button"
-          v-if="canScreenfull"
-          @click="$emit('screenfull')"
-        >
-          <template v-if="isScreenfull">退出全屏</template>
-          <template v-else>全屏</template>
-        </button>
-      </div>
+  <div
+    class="vue-run-sfc-header"
+    :class="{ 'vue-run-sfc-header-screenfull': isScreenfull }"
+  >
+    <!-- 标题 -->
+    <div class="vue-run-sfc-header-title">{{ title }}</div>
+    <!-- 操作区 -->
+    <div class="vue-run-sfc-header-action" v-if="isExpanded">
+      <button class="vue-run-sfc-header-button" @click="$emit('reset')">
+        重置
+      </button>
+      <button class="vue-run-sfc-header-button" @click="$emit('change-row')">
+        <span v-if="isRow">上下</span><span v-else>左右</span>布局
+      </button>
+      <button
+        class="vue-run-sfc-header-button"
+        v-if="canScreenfull"
+        @click="$emit('screenfull')"
+      >
+        <template v-if="isScreenfull">退出全屏</template>
+        <template v-else>全屏</template>
+      </button>
     </div>
   </div>
 </template>
@@ -52,7 +50,7 @@ export default {
 .vue-run-sfc-header {
   padding: 10px;
   z-index: 1;
-  border-bottom: 1px solid #ebeef5;
+  border: 1px solid #ebeef5;
   display: flex;
   height: 36px;
   box-sizing: content-box;
