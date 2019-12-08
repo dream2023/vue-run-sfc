@@ -99,7 +99,7 @@ export default {
 
 .vue-run-sfc-header-button:focus,
 .vue-run-sfc-header-button:hover {
-  color: #409eff;
+  color: var(--vue-run-sfc, #409eff);
   border-color: #c6e2ff;
   background-color: #ecf5ff;
 }

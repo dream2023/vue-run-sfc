@@ -45,7 +45,8 @@ Vue.use(VueRunSfc, {
   reverse: true,
   height: '400px',
   open: true,
-  isHideHeader: false
+  isHideHeader: false,
+  themeColor: 'green'
 })
 ```
 
@@ -156,6 +157,15 @@ props: {
    * @example: 'body { color: red }'
    */
   css: [Array, String],
+
+  /**
+   * 主体色
+   * 默认值: #409eff
+   */
+  themeColor: {
+    type: String,
+    default: '#409eff'
+  },
 
   /**
    * 代码编辑器和效果预览排列方式

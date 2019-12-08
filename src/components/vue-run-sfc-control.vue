@@ -105,7 +105,7 @@ export default {
   z-index: 1;
 }
 .vue-run-sfc-control:hover {
-  color: #409eff;
+  color: var(--vue-run-sfc, #409eff);
   background-color: #f9fafc;
 }
 
@@ -127,7 +127,7 @@ export default {
   transform: translateX(-40px);
 }
 .vue-run-sfc-control:hover .vue-run-sfc-control-icon {
-  border-top: 6px solid #409eff;
+  border-top: 6px solid var(--vue-run-sfc, #409eff);
 }
 .vue-run-sfc-control > span {
   position: absolute;

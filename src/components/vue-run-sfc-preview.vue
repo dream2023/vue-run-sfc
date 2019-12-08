@@ -1,6 +1,10 @@
 <template>
   <div class="vue-run-sfc-preview">
-    <vue-element-loading :active="loading" spinner="spinner" color="#409EFF" />
+    <vue-element-loading
+      :active="loading"
+      spinner="spinner"
+      :color="themeColor"
+    />
 
     <iframe
       sandbox="allow-modals allow-forms allow-pointer-lock allow-popups allow-same-origin allow-scripts"
@@ -41,6 +45,10 @@ export default {
     value: {
       type: Object,
       required: true
+    },
+    themeColor: {
+      type: String,
+      default: '#409eff'
     }
   },
   mounted () {

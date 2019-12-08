@@ -32,10 +32,8 @@
           class="vue-run-sfc-editor"
           v-model="editCode"
           @input="handleRun"
-          :style="{
-            height: editorHeight,
-            borderBottom: isRow ? '' : '1px solid #ebeef5'
-          }"
+          :class="{ 'vue-run-sfc-editor-screenfull': isScreenfull && isRow }"
+          :style="{ height: editorHeight }"
           :options="codemirrorOption"
         ></codemirror>
       </template>
@@ -44,8 +42,12 @@
         <vue-run-sfc-preview
           ref="preview"
           :js-labs="attrs.jsLabs"
+          :theme-color="attrs.themeColor"
           :css="attrs.css"
           :js="attrs.js"
+          :style="{
+            borderTop: isRow ? '' : '1px solid #ebeef5'
+          }"
           :css-labs="attrs.cssLabs"
           @change-height="handlePreviewHeightChange"
           :value="preview"
@@ -70,6 +72,7 @@ import VueRunSfcPreview from './components/vue-run-sfc-preview'
 import VueRunSfcHeader from './components/vue-run-sfc-header'
 import VueRunSfcControl from './components/vue-run-sfc-control'
 import VueRunSfcMain from './components/vue-run-sfc-main'
+import cssVars from 'css-vars-ponyfill'
 
 const { debounce } = require('throttle-debounce')
 const compiler = require('vue-template-compiler')
@@ -118,6 +121,12 @@ export default {
 
     // 代码, 同 `code`
     value: String,
+
+    /**
+     * 主体色
+     * 默认值: #409eff
+     */
+    themeColor: String,
 
     /**
      * 代码编辑器和效果预览排列方式
@@ -260,10 +269,18 @@ export default {
     }
   },
   methods: {
-    // 全屏
+    // 全屏 (点击按钮)
     handleScreenfull () {
       this.isScreenfull = !this.isScreenfull
       screenfull.toggle(this.$refs.wrapper)
+    },
+    // esc 按钮退出全屏
+    checkScreenfull () {
+      if (screenfull.isEnabled) {
+        screenfull.on('change', () => {
+          this.isScreenfull = screenfull.isFullscreen
+        })
+      }
     },
     // 运行代码
     // 参考: https://github.com/QingWei-Li/vuep.run/blob/master/src/components/preview.vue
@@ -360,15 +377,29 @@ export default {
     },
     handlePreviewHeightChange (height) {
       this.previewHeight = height
+    },
+    init () {
+      this.setDefaultRow()
+
+      // 默认是否展开
+      this.isExpanded = this.attrs.open
+
+      cssVars({
+        variables: {
+          '--vue-run-sfc': this.attrs.themeColor || '#409eff'
+        }
+      })
+
+      // 默认code
+      let initalCode = this.code || this.value
+      initalCode = initalCode ? decodeURIComponent(initalCode) : ''
+      this.initalCode = initalCode
+      this.editCode = initalCode
     }
   },
   mounted () {
-    this.setDefaultRow()
-    this.isExpanded = this.attrs.open
-    let initalCode = this.code || this.value
-    initalCode = initalCode ? decodeURIComponent(initalCode) : ''
-    this.initalCode = initalCode
-    this.editCode = initalCode
+    this.checkScreenfull()
+    this.init()
     this.handleRun()
   }
 }
@@ -405,8 +436,8 @@ export default {
 .vue-run-sfc-editor .CodeMirror-sizer {
   padding-right: 0 !important;
 }
-.vue-run-sfc-editor .CodeMirror-scroll {
-  margin-bottom: 40px;
-  padding-bottom: 44px;
+/* 修复: 全屏模式会遮盖住 最后一行 */
+.vue-run-sfc-editor-screenfull .CodeMirror-sizer {
+  margin-bottom: 40px !important;
 }
 </style>
