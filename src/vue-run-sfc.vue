@@ -240,7 +240,8 @@ export default {
     editorHeight () {
       if (this.isScreenfull) {
         if (this.isRow) {
-          return '100vh'
+          const headerHeight = 58
+          return (document.documentElement.clientHeight - headerHeight) + 'px'
         } else {
           return null
         }
