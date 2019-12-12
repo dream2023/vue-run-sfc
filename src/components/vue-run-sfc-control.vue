@@ -119,8 +119,9 @@ export default {
   transition: 0.3s;
   position: relative;
   font-size: 0;
-  bottom: -6px;
   display: inline-block;
+  vertical-align: middle;
+  bottom: -9px;
 }
 
 .vue-run-sfc-control-icon.hovering {
