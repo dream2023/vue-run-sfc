@@ -125,7 +125,9 @@ export default {
           const height =
             iframeDocument.documentElement.offsetHeight + extendHeight
           iframe.style.height = height + 'px'
-          this.$emit('change-height', this.$refs.preview.clientHeight)
+          if (this.$refs.preview) {
+            this.$emit('change-height', this.$refs.preview.clientHeight)
+          }
         })
       }
       this.debounceChangeHeight()

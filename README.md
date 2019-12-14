@@ -21,7 +21,13 @@
 - 全屏模式
 - 支持 `sass` / `scss` / `less` / `stylus` 预处理器
 
-![image](https://raw.githubusercontent.com/dream2023/images/master/vue-run-sfc.6etlb7pxsj.gif)
+![image](https://s2.ax1x.com/2019/12/14/QR08aT.gif)
+
+## 生态
+
+- [vuepress-plugin-run](https://github.com/dream2023/vuepress-plugin-run): vuepress 在线运行 vue 单文件
+- [docsify-plugin-run](https://github.com/dream2023/docsify-plugin-run): docsify 在线运行 vue 单文件
+- [docute-plugin-run](https://github.com/dream2023/docute-plugin-run): docute 在线运行 vue 单文件
 
 ## 安装
 
@@ -181,10 +187,7 @@ props: {
    * 当为 false 时, 上下排列
    * 当为 true 时, 左右排列
    */
-  row: {
-    type: Boolean,
-    default: undefined
-  },
+  row: Boolean,
 
   /**
    * 当 `row` 为 true 时, 编辑区和展示区上下位置
