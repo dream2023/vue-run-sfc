@@ -8,7 +8,8 @@
     "serve": "vue-cli-service serve",
     "build": "yarn build:lib && yarn build:docs",
     "build:lib": "vue-cli-service build --target lib --name vue-run-sfc --dest ./dist/ ./src/index.js",
-    "pub": "npm run build:lib && npm publish",
+    "release": "standard-version",
+    "pub": "npm run build:lib && npm run release &&  npm publish --registry http://registry.npmjs.org && git push --follow-tags origin master && gren release --override",
     "build:docs": "vue-cli-service build",
     "lint": "vue-cli-service lint --mode production"
   },
@@ -35,15 +36,22 @@
     "vue-element-loading": "^1.1.5"
   },
   "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
     "@vue/cli-plugin-babel": "^4.0.0",
     "@vue/cli-plugin-eslint": "^4.0.0",
     "@vue/cli-service": "^4.0.0",
     "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.0.3",
+    "commitizen": "^4.0.3",
     "core-js": "^3.3.2",
+    "cz-conventional-changelog": "^3.1.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
+    "github-release-notes": "^0.17.1",
+    "husky": "^4.2.1",
     "lint-staged": "^9.4.2",
+    "standard-version": "^7.1.0",
     "vue": "^2.6.10",
     "vue-template-compiler": "^2.6.10"
   },
