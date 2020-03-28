@@ -27,10 +27,9 @@
     "vue-code-editor"
   ],
   "dependencies": {
-    "@babel/standalone": "^7.7.4",
-    "css-vars-ponyfill": "^2.1.2",
-    "screenfull": "^5.0.0",
-    "splitpanes": "^2.1.1",
+    "@babel/standalone": "^7.9.4",
+    "css-vars-ponyfill": "^2.2.1",
+    "screenfull": "^5.0.2",
     "throttle-debounce": "^2.1.0",
     "vue-codemirror": "^4.0.6",
     "vue-element-loading": "^1.1.5",
@@ -39,22 +38,22 @@
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
-    "@vue/cli-plugin-babel": "^4.0.0",
-    "@vue/cli-plugin-eslint": "^4.0.0",
-    "@vue/cli-service": "^4.0.0",
+    "@vue/cli-plugin-babel": "^4.2.3",
+    "@vue/cli-plugin-eslint": "^4.2.3",
+    "@vue/cli-service": "^4.2.3",
     "@vue/eslint-config-standard": "^4.0.0",
-    "babel-eslint": "^10.0.3",
+    "babel-eslint": "^10.1.0",
     "commitizen": "^4.0.3",
-    "core-js": "^3.3.2",
+    "core-js": "^3.6.4",
     "cz-conventional-changelog": "^3.1.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "github-release-notes": "^0.17.1",
-    "husky": "^4.2.1",
-    "lint-staged": "^9.4.2",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.9",
     "standard-version": "^7.1.0",
-    "vue": "^2.6.10",
-    "vue-template-compiler": "^2.6.10"
+    "vue": "^2.6.11",
+    "vue-template-compiler": "^2.6.11"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"

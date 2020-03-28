@@ -49,7 +49,7 @@ export default {
   z-index: 1;
   box-sizing: border-box;
   overflow-y: auto;
-  border: 1px solid #ebeef5;
+  border: 1px solid var(--vue-run-sfc-border, #ebeef5);
   border-top: none;
 }
 
@@ -71,8 +71,8 @@ export default {
   margin: 0;
   left: 0;
   position: relative;
-  border-left: 1px solid #ebeef5;
-  border-right: 1px solid #ebeef5;
+  border-left: 1px solid var(--vue-run-sfc-border, #ebeef5);
+  border-right: 1px solid var(--vue-run-sfc-border, #ebeef5);
 }
 .vue-run-sfc-main > .multipane-resizer:before {
   display: block;
