@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="isRow && isExpanded ? 'splitpanes' : 'div'"
+    :is="isRow && isExpanded ? 'multipane' : 'div'"
     :class="{
       'default-theme': isRow,
       'vue-run-sfc-main-reverse': isExpanded && !isRow && reverse
@@ -9,12 +9,13 @@
     class="vue-run-sfc-main"
   >
     <template v-if="isRow && isExpanded">
-      <pane style="overflow-y: auto">
+      <div class="vue-run-sfc-main-pane" style="overflow-y: auto;width: 50%;">
         <slot name="editor"></slot>
-      </pane>
-      <pane style="overflow-y: auto">
+      </div>
+      <multipane-resizer></multipane-resizer>
+      <div class="vue-run-sfc-main-pane" style="overflow-y: auto;flexGrow: 1">
         <slot name="preview"></slot>
-      </pane>
+      </div>
     </template>
     <template v-else>
       <slot v-if="isExpanded" name="editor"></slot>
@@ -24,14 +25,13 @@
 </template>
 
 <script>
-import { Splitpanes, Pane } from 'splitpanes'
-import 'splitpanes/dist/splitpanes.css'
+import { Multipane, MultipaneResizer } from 'vue-multipane'
 
 export default {
   name: 'vue-run-sfc-main',
   components: {
-    Splitpanes,
-    Pane
+    Multipane,
+    MultipaneResizer
   },
   props: {
     isRow: Boolean,
@@ -49,7 +49,7 @@ export default {
   z-index: 1;
   box-sizing: border-box;
   overflow-y: auto;
-  border: 1px solid var(--vue-run-sfc-border, #ebeef5);
+  border: 1px solid #ebeef5;
   border-top: none;
 }
 
@@ -62,13 +62,36 @@ export default {
 .vue-run-sfc-main-reverse .vue-run-sfc-editor {
   border-top: 1px solid #eaeefb;
 }
-/* 拖拽看板样式 */
-.splitpanes.default-theme .splitpanes__pane {
-  background: white;
+
+.vue-run-sfc-main-pane {
+  text-align: left;
+  overflow: hidden;
+}
+.vue-run-sfc-main > .multipane-resizer {
+  margin: 0;
+  left: 0;
+  position: relative;
+  border-left: 1px solid #ebeef5;
+  border-right: 1px solid #ebeef5;
+}
+.vue-run-sfc-main > .multipane-resizer:before {
+  display: block;
+  content: '';
+  width: 3px;
+  height: 40px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -20px;
+  margin-left: -2.5px;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+}
+.vue-run-sfc-main > .multipane-resizer:hover:before {
+  border-color: #999;
 }
 
-.vue-run-sfc-main.splitpanes--vertical > .splitpanes__splitter {
-  border-left: 1px solid var(--vue-run-sfc-border, #ebeef5);
-  border-right: 1px solid var(--vue-run-sfc-border, #ebeef5);
+.vue-run-sfc-main.layout-v > .multipane-resizer {
+  height: auto;
 }
 </style>

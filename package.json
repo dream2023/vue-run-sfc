@@ -33,7 +33,8 @@
     "splitpanes": "^2.1.1",
     "throttle-debounce": "^2.1.0",
     "vue-codemirror": "^4.0.6",
-    "vue-element-loading": "^1.1.5"
+    "vue-element-loading": "^1.1.5",
+    "vue-multipane": "^0.9.5"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
