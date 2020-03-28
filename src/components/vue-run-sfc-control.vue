@@ -9,10 +9,22 @@
     @click="$emit('expanded')"
   >
     <transition name="arrow-slide">
-      <i class="vue-run-sfc-control-icon" :class="{ hovering: hovering }"></i>
+      <i
+        class="vue-run-sfc-control-icon"
+        :class="{ hovering: hovering || isExpanded }"
+      ></i>
     </transition>
     <transition name="text-slide">
-      <span v-show="hovering">{{ controlText }}</span>
+      <span class="control-text" v-show="hovering">{{ controlText }}</span>
+    </transition>
+
+    <transition name="text-slide">
+      <span class="power-by-text"
+        >Power By
+        <a href="https://github.com/dream2023/vue-run-sfc" target="_blank"
+          >Vue-Run-Sfc</a
+        ></span
+      >
     </transition>
   </div>
 </template>
@@ -125,18 +137,28 @@ export default {
 }
 
 .vue-run-sfc-control-icon.hovering {
-  transform: translateX(-40px);
+  transform: translateX(-40px) rotate(180deg);
 }
 .vue-run-sfc-control:hover .vue-run-sfc-control-icon {
   border-top: 6px solid var(--vue-run-sfc-main, #409eff);
 }
-.vue-run-sfc-control > span {
+.vue-run-sfc-control .control-text {
   position: absolute;
   transform: translateX(-30px);
   font-size: 14px;
   line-height: 44px;
   transition: 0.3s;
   display: inline-block;
+}
+.vue-run-sfc-control .power-by-text {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 14px;
+  opacity: 0.8;
+}
+.vue-run-sfc-control .power-by-text > a {
+  color: inherit;
 }
 
 .vue-run-sfc-control .text-slide-enter,
