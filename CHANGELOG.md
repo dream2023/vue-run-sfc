@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/dream2023/vue-run-sfc/compare/v1.3.0...v1.4.0) (2020-04-05)
+
+
+### Features
+
+* 可直接使用当前环境的全局组件 ([7872c52](https://github.com/dream2023/vue-run-sfc/commit/7872c520b777e83cc82b178f2b1fd607a9c69031))
+
 ## [1.3.0](https://github.com/dream2023/vue-run-sfc/compare/v1.2.0...v1.3.0) (2020-03-28)
 
 

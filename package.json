@@ -1,6 +1,6 @@
 {
   "name": "vue-run-sfc",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Vue DEMO利器, 在线运行 & 编辑 Vue 单文件",
   "private": false,
   "license": "MIT",
