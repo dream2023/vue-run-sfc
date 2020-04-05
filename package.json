@@ -29,6 +29,7 @@
   "dependencies": {
     "@babel/standalone": "^7.9.4",
     "css-vars-ponyfill": "^2.2.1",
+    "deepmerge": "^4.2.2",
     "screenfull": "^5.0.2",
     "throttle-debounce": "^2.1.0",
     "vue-codemirror": "^4.0.6",
@@ -46,6 +47,7 @@
     "commitizen": "^4.0.3",
     "core-js": "^3.6.4",
     "cz-conventional-changelog": "^3.1.0",
+    "element-ui": "^2.13.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "github-release-notes": "^0.17.1",

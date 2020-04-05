@@ -18,8 +18,10 @@
 
 <script>
 // 参考: https://github.com/QingWei-Li/vuep.run/blob/master/src/components/preview.vue
+import Vue from 'vue'
 import VueElementLoading from 'vue-element-loading'
 const { debounce } = require('throttle-debounce')
+const merge = require('deepmerge')
 
 export default {
   components: {
@@ -151,7 +153,7 @@ export default {
       let { styles = [], script = '', template, errors } = this.value
       const iframe = this.$refs.iframe
       const iframeDocument = iframe.contentWindow.document
-
+      iframe.contentWindow.Vue.options = merge(Vue.options, iframe.contentWindow.Vue.options)
       if (iframeDocument) {
         const elError = iframeDocument.getElementById('error')
         if (elError) {
