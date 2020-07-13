@@ -53,7 +53,7 @@
     "github-release-notes": "^0.17.1",
     "husky": "^4.2.3",
     "lint-staged": "^10.0.9",
-    "standard-version": "^7.1.0",
+    "standard-version": "^8.0.1",
     "vue": "^2.6.11",
     "vue-template-compiler": "^2.6.11"
   },
