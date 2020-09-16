@@ -112,7 +112,9 @@ export default {
   },
   watch: {
     value () {
-      this.setHTML()
+      if (this.$refs.contentWindow) {
+        this.setHTML()
+      }
     }
   },
   methods: {

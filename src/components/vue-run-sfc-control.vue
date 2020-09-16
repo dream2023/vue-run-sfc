@@ -15,7 +15,7 @@
       ></i>
     </transition>
     <transition name="text-slide">
-      <span class="control-text" v-show="hovering">{{ controlText }}</span>
+      <span class="control-text" v-if="hovering">{{ controlText }}</span>
     </transition>
 
     <transition name="text-slide">
