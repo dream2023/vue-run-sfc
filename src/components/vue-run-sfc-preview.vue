@@ -54,6 +54,7 @@ export default {
     }
   },
   mounted() {
+    if (!this.hasDocument()) return;
     const iframe = this.$refs.iframe;
     const iframeDocument = iframe.contentWindow.document;
     const stylesTags = this.cssLabs.map(
@@ -70,8 +71,7 @@ export default {
     <head>
       ${stylesTags.join("\n")}
       <style>${css.join("\n")}</style>
-
-      <script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'><\/script>
+      <script src='https://cdn.jsdelivr.net/npm/vue@2.6.11'><\/script>
       ${scriptTags.join("\n")}
       <script>${js.join("\n")}<\/script>
       <script>
@@ -116,10 +116,25 @@ export default {
     }
   },
   methods: {
+    hasWindow() {
+      const iframe = this.$refs.iframe;
+      if (!iframe || !iframe.contentWindow) {
+        return false;
+      }
+      return true;
+    },
+    hasDocument() {
+      const iframe = this.$refs.iframe;
+      if (!iframe || !iframe.contentWindow || !iframe.contentWindow.document) {
+        return false;
+      }
+      return true;
+    },
     // 根据内容更改高度
     changeHeight() {
       if (!this.debounceChangeHeight) {
         this.debounceChangeHeight = debounce(300, () => {
+          if (!this.iframe || !this.iframeDocument) return;
           const iframe = this.iframe;
           const iframeDocument = this.iframeDocument;
           iframe.style.display = "block";
@@ -151,10 +166,9 @@ export default {
     // 设置html
     setHTML() {
       let { styles = [], script = "", template, errors } = this.value;
+      if (!this.hasDocument() || !template) return;
       const iframe = this.$refs.iframe;
-      if (!iframe) return;
-      const iframeDocument = iframe?.contentWindow?.document;
-      if (!iframeDocument) return;
+      const iframeDocument = iframe.contentWindow.document;
       iframe.contentWindow.Vue.options = merge(
         Vue.options,
         iframe.contentWindow.Vue.options
@@ -216,11 +230,7 @@ export default {
     }
   },
   beforeDestory() {
-    if (
-      this.iframe &&
-      this.iframe.contentWindow &&
-      this.iframe.contentWindow.addEventListener
-    ) {
+    if (this.hasWindow()) {
       this.iframe.contentWindow.removeEventListener(
         "resize",
         this.changeHeight
